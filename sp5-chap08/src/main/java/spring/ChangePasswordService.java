@@ -1,12 +1,12 @@
 package spring;
 
-import javax.sql.DataSource;
+import org.springframework.transaction.annotation.Transactional;
 
 public class ChangePasswordService {
 	
-	private DataSource dataSource;
-	private MemberDao memberDao = new MemberDao(dataSource);
+	private MemberDao memberDao;
 	
+	@Transactional
 	public void changePassword(String email, String oldPwd, String newPwd) {
 		Member member = memberDao.selectByEmail(email);
 		if(member == null) {

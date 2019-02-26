@@ -27,7 +27,6 @@ public class MemberDao {
 	public Member selectByEmail(String email) {
 		List<Member> results = jdbcTemplate.query("select * from MEMBER where EMAIL = ?",
 				new RowMapper<Member>() {
-			@Override
 			public Member mapRow(ResultSet rs, int rowNum) throws SQLException{
 				Member member = new Member(
 						rs.getString("EMAIL"),
@@ -54,12 +53,11 @@ public class MemberDao {
 		return results.isEmpty() ? null : results.get(0);
 */	}
 	
-	public void insert(Member member) {
+	public void insert(final Member member) {
 		
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			
-			@Override
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
 				PreparedStatement pstmt = conn.prepareStatement("insert into MEMBER (EMAIL, PASSWORD, NAME, REGDATE) values(?,?,?,?)", new String[] {"ID"} );
 				pstmt.setString(1, member.getEmail());
@@ -94,7 +92,6 @@ public class MemberDao {
 	
 	public List<Member> selectAll(){
 		List<Member> results = jdbcTemplate.query("select * from MEMBER", new RowMapper<Member>() {
-			@Override
 			public Member mapRow(ResultSet rs, int rowNum) throws SQLException{
 				Member member = new Member(
 						rs.getString("EMAIL"),
